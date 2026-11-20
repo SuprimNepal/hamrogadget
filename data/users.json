@@ -1,0 +1,18 @@
+[
+  {
+    "id": "dcfb2fe9-e1c5-4741-974e-36ccdc7d3dd8",
+    "name": "Ramesh Sharma",
+    "email": "member@gmail.com",
+    "password": "$2a$10$mlrcugq2YyAkest4QDQ7a.VmeFZ4VojLmHkREcBYNwzus6DLnZwKW",
+    "role": "user",
+    "createdAt": "2026-11-20T07:31:58.705Z"
+  },
+  {
+    "id": "0c5b95f9-4225-469d-a5d9-b257b81acc99",
+    "name": "Aayush Sharma",
+    "email": "aayush.test@example.com",
+    "password": "$2a$10$i9K.D/Fw/VsuuJ2cjuyG7.NxTVrDywwiJ1IxeVF9NYDlIzh3pnqlO",
+    "role": "user",
+    "createdAt": "2026-11-20T07:32:39.244Z"
+  }
+]
