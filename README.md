@@ -1,109 +1,163 @@
-# HamroGadget — Nepal's Premier Tech & Gadget Storefront
+# HamroGadget — PHP, JavaScript, HTML, CSS & MySQL (XAMPP Edition)
 
-A modern, responsive consumer electronics storefront designed with a **Bento Grid** layout, comprehensive category filtering, real NPR pricing, and a secure admin management portal.
-
----
-
-## 🚀 Quick Start / How to Run
-
-### Prerequisites
-- [Node.js](https://nodejs.org/) (v18 or higher recommended)
-- npm (included with Node.js)
-
-### Steps to Run
-
-1. **Open your terminal or PowerShell** and navigate to the project folder:
-   ```bash
-   cd "c:\Users\aayus\Downloads\jarvis-main\hamrogadget"
-   ```
-
-2. **Install dependencies** (if not already installed):
-   ```bash
-   npm install
-   ```
-
-3. **Start the application server**:
-   ```bash
-   npm start
-   ```
-   *(or `node server.js`)*
-
-4. **Open your browser** and visit:
-   ```
-   http://localhost:5000
-   ```
+Nepal's premier electronics storefront rebuilt with **PHP, Vanilla JavaScript, semantic HTML5, CSS3 (Bento Grid design), and MySQL (MariaDB)**, ready to run directly on **XAMPP Localhost**.
 
 ---
 
-## 🔐 Admin Portal Credentials
+## 🚀 Quick Start Guide for XAMPP
 
-- **Admin URL**: Click the **"Admin"** button in the header or navigate directly to `http://localhost:5000/#/admin`
-- **Email**: `admin12@gmail.com`
-- **Password**: `admin12@`
+### Step 1: Move Project to XAMPP `htdocs`
+Copy the `hamrogadget_php` folder into your XAMPP web root directory and rename it to `hamrogadget`:
+```
+C:\xampp\htdocs\hamrogadget
+```
 
-> **Security Note**: Password is encrypted using **bcryptjs** on the server. Admin sessions are authenticated via JWT (JSON Web Tokens) with a 24-hour expiration and protected with rate-limiting on login attempts.
-
----
-
-## 🌟 Key Features
-
-### 1. Bento Grid Architecture
-- **Hero Mosaic**: 12-column CSS Grid with modular 2x2 featured flagship card, staggered fade-up animations, and category spotlights.
-- **Micro-interactions**: Subtle hover lifts, floating hero animation, smooth transitions, and skeleton/lazy loading.
-- **Dark & Light Mode**: Persistent theme switcher with high-contrast WCAG AA palette.
-
-### 2. Category Browsing & Real-time Filters
-- Categories: **Laptops, Phones, Headphones, Smartwatches, Accessories, Other Tech**.
-- Dynamic filters: Live search, Brand chips, NPR price slider/range, and Stock availability.
-- URL-synced filter state: Shareable URLs and full browser back/forward support.
-- Comprehensive Product Detail view: Multi-image thumbnail gallery, specifications table, key highlights, and related products.
-
-### 3. Dynamic Admin Catalog Management
-- **Add / Edit Product Modal**:
-  - Required fields: Name, Brand, Category, Price in NPR, Stock status, Short Description, Image URLs.
-  - Category-aware dynamic spec fields (Processor, RAM, Battery, Camera, etc. adapt to the selected category).
-  - Multi-image URL manager & Key highlight builder.
-- **Quick Catalog Controls**: Instant 1-click toggles for Stock Status (*In Stock / Pre-Order / Out of Stock*) and Featured banner (*★ Featured / ☆ Standard*).
-- **Search & Delete**: Live table search and safe confirmation delete.
+### Step 2: Start Apache and MySQL
+1. Open the **XAMPP Control Panel**.
+2. Click **Start** next to **Apache**.
+3. Click **Start** next to **MySQL**.
 
 ---
 
-## ⚙️ Environment Variables (Optional)
+### Step 3: Setup the Database (Two Easy Options)
 
-You can set these in your `.env` file or environment:
+#### Option A: 1-Click Automated Web Setup (Recommended)
+Open your web browser and go to:
+```
+http://localhost/hamrogadget/database/setup_db.php
+```
+This automatically:
+- Creates the `hamrogadget_db` database.
+- Builds all tables (`admins`, `users`, `products`, `scraped_media`).
+- Seeds the administrator account, demo member, all 20 curated Nepali tech products, and 1,000+ scraped gadget images.
 
-| Variable | Default | Purpose |
-| :--- | :--- | :--- |
-| `PORT` | `5000` | Port for Express server |
-| `JWT_SECRET` | `HG_JWT_SECRET_2026` | Secret key used to sign Admin JWTs |
+#### Option B: phpMyAdmin Manual Import
+1. Open [http://localhost/phpmyadmin](http://localhost/phpmyadmin).
+2. Click **New** on the left sidebar to create a database.
+3. Database name: `hamrogadget_db`, Collation: `utf8mb4_unicode_ci`, click **Create**.
+4. Select `hamrogadget_db` from the left menu.
+5. Click the **Import** tab at the top.
+6. Click **Choose File** and select `database/database.sql` from the project folder.
+7. Scroll down and click **Import** (or **Go**).
 
 ---
 
-## 📂 How to Add a New Category
+### Step 4: Open HamroGadget in Your Browser
+Visit:
+```
+http://localhost/hamrogadget/
+```
 
-To add a new category (e.g. *Gaming Consoles* or *Cameras*):
+---
 
-1. **Update `server.js`**:
-   In the `/api/categories` route handler:
-   ```javascript
-   app.get('/api/categories', (req, res) => {
-     res.json(['Laptops', 'Phones', 'Headphones', 'Smartwatches', 'Accessories', 'Gaming Consoles', 'Other Tech']);
-   });
-   ```
+## 🔐 Credentials & Authentication Flow
 
-2. **Update `public/index.html`**:
-   Add the nav link inside `<ul class="nav-links">` and `<ul class="drawer-links">`:
-   ```html
-   <li><a href="#/category/Gaming%20Consoles" class="nav-link" data-nav="Gaming Consoles">Gaming</a></li>
-   ```
+### 1. Admin Account (Direct Redirection to Admin Panel)
+- **Email:** `admin12@gmail.com`
+- **Password:** `admin12@`
+- *When entering these credentials on the "Log In" modal, the system immediately recognizes the admin role and redirects you to the Admin Panel (`#/admin`).*
 
-3. **Update `public/js/app.js`**:
-   Add an SVG icon to `CategoryIcons` and add spec fields to `getSpecFieldsForCategory()`:
-   ```javascript
-   case 'Gaming Consoles':
-     return [
-       { key: 'storage', label: 'Storage Capacity', val: currentSpecs.storage || '' },
-       { key: 'resolution', label: 'Resolution (4K/8K)', val: currentSpecs.resolution || '' },
-       { key: 'controllers', label: 'Included Controllers', val: currentSpecs.controllers || '' }
-     ];
-   ```
+### 2. Demo Regular Member Account
+- **Email:** `member@gmail.com`
+- **Password:** `member12@`
+
+### 3. User Sign Up Flow
+- Visitors can click the **Sign Up** button in the navbar.
+- Fill in Name, Email, and Password (min. 6 characters).
+- Upon submission, the account is stored securely in MySQL (`users` table) with bcrypt hashing (`password_hash()`).
+- The page displays a success modal pop-up: **"Account Created Successfully! 🎉"** with a **"Proceed to Log In"** button. The user is not auto-logged in.
+- After logging in, the user avatar and profile menu appear in the top bar.
+
+---
+
+## 🗄️ Database Schema (`hamrogadget_db`)
+
+### 1. `admins` Table
+Stores administrator credentials:
+| Column | Type | Description |
+|---|---|---|
+| `id` | VARCHAR(36) PK | UUID identifier |
+| `name` | VARCHAR(100) | Administrator display name |
+| `email` | VARCHAR(191) UNIQUE | Admin login email |
+| `password` | VARCHAR(255) | Bcrypt hashed password |
+| `created_at` | DATETIME | Timestamp |
+
+### 2. `users` Table
+Stores registered customer accounts:
+| Column | Type | Description |
+|---|---|---|
+| `id` | VARCHAR(36) PK | UUID identifier |
+| `name` | VARCHAR(100) | User full name |
+| `email` | VARCHAR(191) UNIQUE | Account email |
+| `password` | VARCHAR(255) | Bcrypt hashed password |
+| `role` | VARCHAR(20) | User role (`user`) |
+| `created_at` | DATETIME | Registration timestamp |
+
+### 3. `products` Table
+Stores all catalog items with full specifications and features:
+| Column | Type | Description |
+|---|---|---|
+| `id` | VARCHAR(36) PK | Product UUID |
+| `name` | VARCHAR(255) | Product name |
+| `brand` | VARCHAR(100) | Brand (Apple, Samsung, etc.) |
+| `category` | VARCHAR(100) | Category (Laptops, Phones, etc.) |
+| `price` | DECIMAL(12,2) | Price in Nepali Rupees (NPR) |
+| `discount_price` | DECIMAL(12,2) | Sale/discount price (optional) |
+| `images` | LONGTEXT | JSON array of image URLs |
+| `short_description`| TEXT | Summary description |
+| `specs` | LONGTEXT | JSON key-value specifications |
+| `features` | LONGTEXT | JSON array of feature highlights |
+| `availability` | VARCHAR(50) | In Stock / Pre-Order / Out of Stock |
+| `warranty` | VARCHAR(100) | Official Nepal warranty |
+| `tags` | LONGTEXT | JSON array of search tags |
+| `featured` | TINYINT(1) | Flag for homepage spotlight (0/1) |
+| `created_at` | DATETIME | Created timestamp |
+| `updated_at` | DATETIME | Last updated timestamp |
+
+### 4. `scraped_media` Table
+Stores over 1,000 scraped real gadget images from `gadgetbytenepal.com`:
+| Column | Type | Description |
+|---|---|---|
+| `id` | INT AUTO_INCREMENT PK | Primary key |
+| `image_url` | TEXT | High-resolution image URL |
+| `created_at` | DATETIME | Timestamp |
+
+---
+
+## 📁 Project Structure
+
+```
+hamrogadget/
+├── .htaccess                 # Apache rewrite configuration for XAMPP
+├── index.php                 # Main entry point (HTML5 & PHP)
+├── index.html                # Static HTML alternative
+├── config/
+│   └── db.php                # PDO database connection, JWT helpers & auto-setup
+├── database/
+│   ├── database.sql          # Complete SQL schema & seed script for MySQL
+│   └── setup_db.php          # Automated 1-click web database initializer
+├── api/
+│   ├── index.php             # Unified REST API controller (Products, Auth, Media)
+│   ├── products.php          # Products endpoint wrapper
+│   ├── categories.php        # Categories endpoint wrapper
+│   ├── auth/
+│   │   ├── login.php         # Login handler
+│   │   ├── signup.php        # Signup handler
+│   │   └── me.php            # Current session handler
+│   └── media/
+│       └── scraped.php       # Scraped media gallery handler
+├── css/
+│   └── style.css             # Bento Grid design system, theme tokens & responsive styles
+├── js/
+│   └── app.js                # Frontend engine: bento hero, filters, modals, admin dashboard
+└── uploads/                  # Storage folder for uploaded images
+```
+
+---
+
+## 🎨 Visual Design & Features Retained
+- **Bento Grid Layout**: Hero mosaic (1x1, 2x1, 2x2 modular cards), category tiles, and product grids.
+- **Nepal NPR Pricing**: Formatted correctly with Nepali comma notation (e.g. `NPR 1,74,999`).
+- **Responsive Navigation**: Mobile navigation drawer, search bar, dark/light theme toggle.
+- **Category Specs & Filters**: Dynamic specification builders for Laptops, Phones, Headphones, Smartwatches, and Accessories.
+- **Admin Management Panel**: Full CRUD operations with instant catalog updates.

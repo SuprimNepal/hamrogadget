@@ -1,0 +1,36 @@
+# ============================================================
+# HamroGadget Apache Configuration for XAMPP Localhost
+# ============================================================
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Stop rewriting if real file or folder exists
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Rewrite API routes to the unified PHP API controller
+RewriteRule ^api/(.*)$ api/index.php?route=$1 [QSA,L]
+RewriteRule ^api/?$ api/index.php [QSA,L]
+
+# Route root to index.php
+RewriteRule ^$ index.php [L]
+</IfModule>
+
+# Set default index
+DirectoryIndex index.php index.html
+
+# Prevent directory listings
+Options -Indexes
+
+# Security: Deny access to .sql and config files directly
+<FilesMatch "\.(sql|env)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+  </IfModule>
+</FilesMatch>
